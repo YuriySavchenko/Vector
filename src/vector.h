@@ -51,7 +51,7 @@ public:
 
 };
 
-/* basic constructor */
+/* implementation of the basic constructor */
 template <typename T>
 Vector<T>::Vector() {
 	this->LENGTH = 0;
@@ -83,7 +83,7 @@ Vector<T>::Vector(std::initializer_list<T> init) {
 	}
 }
 
-/* basic destructor */
+/* implementation of the basic destructor */
 template <typename T>
 Vector<T>::~Vector() {
 	this->clear();
