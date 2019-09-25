@@ -127,12 +127,13 @@ constexpr void Vector<T>::reserve() {
 
     T *array = new T[pow2()];
 
-    if (LENGTH != 0) {
+    if (LENGTH != 0 && !this->empty()) {
         for (int i=0; i < LENGTH-1; i++)
             array[i] = (*ARRAY)[i];
+
+        this->clear();
     }
 
-    this->clear();
     this->ARRAY = std::make_unique<T *>(array);
     this->LENGTH = size;
     this->CAPACITY = pow2();
