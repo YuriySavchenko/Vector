@@ -112,6 +112,7 @@ template <typename T>
 constexpr void Vector<T>::clear() {
     this->ARRAY.reset(nullptr);
     this->LENGTH = 0;
+    this->CAPACITY = 0;
 }
 
 /* method which allows to find a capacity and create new array */
