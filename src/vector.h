@@ -250,10 +250,8 @@ constexpr void Vector<T>::erase(const std::size_t & index) {
         throw std::out_of_range("\e[31m[!] Index out of the range.\e[0m");
 
     else {
-        if (index == LENGTH-1) {
-            (*ARRAY)[LENGTH-1] = 0;
+        if (index == LENGTH-1)
             this->LENGTH--;
-        }
 
         else {
             for (int i=index; i < LENGTH-1; i++) {
