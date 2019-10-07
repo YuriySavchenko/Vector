@@ -12,7 +12,7 @@
 template <typename T>
 class Vector {
 private:
-    std::unique_ptr<T *> ARRAY;
+    std::unique_ptr<T []> ARRAY;
     std::size_t LENGTH;
     std::size_t CAPACITY;
 
@@ -77,8 +77,8 @@ Vector<T>::Vector(std::initializer_list<T> init) {
 
     std::size_t index = 0;
 
-    for (auto value : init) {
-        (*ARRAY)[index] = value;
+    for (auto & value : init) {
+        ARRAY[index] = value;
         index++;
     }
 }
@@ -110,7 +110,7 @@ constexpr bool Vector<T>::empty() const noexcept {
 /* method for clearing of the Vector */
 template <typename T>
 constexpr void Vector<T>::clear() {
-    this->ARRAY.reset(nullptr);
+    this->ARRAY.~unique_ptr();
     this->LENGTH = 0;
 }
 
@@ -125,16 +125,16 @@ constexpr void Vector<T>::reserve() {
                 return pow(2, i);
     };
 
-    T *array = new T[pow2()];
+    std::unique_ptr<T []> array(new T[pow2()]);
 
     if (LENGTH != 0 && !this->empty()) {
         for (int i=0; i < LENGTH-1; i++)
-            array[i] = (*ARRAY)[i];
+            array[i] = ARRAY[i];
 
         this->clear();
     }
 
-    this->ARRAY = std::make_unique<T *>(array);
+    this->ARRAY = std::move(array);
     this->LENGTH = size;
     this->CAPACITY = pow2();
 }
@@ -143,7 +143,7 @@ constexpr void Vector<T>::reserve() {
 template <typename T>
 constexpr T & Vector<T>::at(const std::size_t & index) {
     if (index < LENGTH)
-        return (*ARRAY)[index];
+        return ARRAY[index];
     else
         throw std::out_of_range("\e[31m[!] Index out of the range.\e[0m");
 }
@@ -198,7 +198,7 @@ constexpr void Vector<T>::push_back(const T & value) {
     if (LENGTH > CAPACITY)
         this->reserve();
 
-    (*ARRAY)[LENGTH-1] = value;
+    ARRAY[LENGTH-1] = value;
 }
 
 /* method for inserting value into the end of the vector */
@@ -209,7 +209,7 @@ constexpr void Vector<T>::push_back(T && value) {
     if (LENGTH > CAPACITY)
         this->reserve();
 
-    (*ARRAY)[LENGTH-1] = value;
+    ARRAY[LENGTH-1] = value;
 }
 
 /* method for inserting element into vector by index */
@@ -226,13 +226,13 @@ constexpr void Vector<T>::insert(const std::size_t &index, const T & value) {
 
         if (index != LENGTH-1) {
             for (int i=LENGTH-1; i > index; i--)
-                (*ARRAY)[i] = (*ARRAY)[i-1];
+                ARRAY[i] = ARRAY[i-1];
             
-            (*ARRAY)[index] = value;
+            ARRAY[index] = value;
         }
 
         else {
-            (*ARRAY)[index] = value;
+            ARRAY[index] = value;
         }
     }
 }
@@ -255,7 +255,7 @@ constexpr void Vector<T>::erase(const std::size_t & index) {
 
         else {
             for (int i=index; i < LENGTH-1; i++) {
-                (*ARRAY)[i] = (*ARRAY)[i+1];
+                ARRAY[i] = ARRAY[i+1];
             }
 
             this->LENGTH--;
