@@ -65,7 +65,7 @@ Vector<T>::Vector(const std::size_t &count, const T & value) {
     this->reserve();
 
     for (int i=0; i < LENGTH; i++)
-        (*ARRAY)[i] = value;
+        ARRAY[i] = value;
 
 }
 
