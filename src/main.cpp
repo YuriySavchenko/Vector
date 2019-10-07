@@ -1,7 +1,26 @@
 #include <iostream>
 #include "vector.h"
 
+class User {
+public:
+    User() {
+        std::cout << "User constructor" << std::endl;
+    }
+
+    ~User() {
+        std::cout << "User destructor" << std::endl;
+    }
+};
+
+void add_user(Vector<User> & vector) {
+    User user;
+    vector.push_back(user);
+}
+
 int main(int argc, char *argv[]) {
+    Vector<User> users;
+    add_user(users);
+
     Vector<int> v;
 
     v.push_back(1);
