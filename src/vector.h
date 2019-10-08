@@ -8,11 +8,13 @@
 #include <functional>
 #include <stdexcept>
 #include <cmath>
+#include <cstdlib>
 
 template <typename T>
 class Vector {
 private:
-    std::unique_ptr<T []> ARRAY;
+    //std::unique_ptr<T []> ARRAY;
+    T * ARRAY;
     std::size_t LENGTH;
     std::size_t CAPACITY;
 
@@ -48,7 +50,6 @@ public:
     constexpr void insert(const std::size_t &, T &&);
     constexpr void erase(const std::size_t &);
     constexpr void erase(std::size_t &&);
-
 };
 
 /* implementation of the basic constructor */
@@ -66,7 +67,6 @@ Vector<T>::Vector(const std::size_t &count, const T & value) {
 
     for (int i=0; i < LENGTH; i++)
         ARRAY[i] = value;
-
 }
 
 /* constructor for creating vector by initializer list */
@@ -87,6 +87,7 @@ Vector<T>::Vector(std::initializer_list<T> init) {
 template <typename T>
 Vector<T>::~Vector() {
     this->clear();
+    free(ARRAY);
 }
 
 /* function for returning size of the vector */
@@ -110,7 +111,6 @@ constexpr bool Vector<T>::empty() const noexcept {
 /* method for clearing of the Vector */
 template <typename T>
 constexpr void Vector<T>::clear() {
-    this->ARRAY.~unique_ptr();
     this->LENGTH = 0;
     this->CAPACITY = 0;
 }
@@ -126,16 +126,16 @@ constexpr void Vector<T>::reserve() {
                 return pow(2, i);
     };
 
-    std::unique_ptr<T []> array(new T[pow2()]);
+    T * array = static_cast<T *>(malloc(sizeof(T)*pow2()));
 
     if (LENGTH != 0 && !this->empty()) {
         for (int i=0; i < LENGTH-1; i++)
             array[i] = ARRAY[i];
 
-        this->clear();
+        free(ARRAY);
     }
 
-    this->ARRAY = std::move(array);
+    this->ARRAY = array;
     this->LENGTH = size;
     this->CAPACITY = pow2();
 }
