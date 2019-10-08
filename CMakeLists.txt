@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5.1)
 project(Vector)
 
 set(CMAKE_CXX_STANDART 11)
+set(CMAKE_BUILD_TYPE Debug)
 set(SOURCE_DIR "${PROJECT_SOURCE_DIR}/src")
 set(TEST_DIR "${PROJECT_SOURCE_DIR}/test/src")
 set(TEST_DIR_HEADERS "${TEST_DIR}/headers")
