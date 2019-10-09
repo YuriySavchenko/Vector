@@ -27,5 +27,14 @@ int main(int argc, char *argv[]) {
     Vector<User> users;
     add_user(users);
 
+    Vector<int> v;
+
+    v.push_back(1);
+    v.push_back(2);
+    v.push_back(3);
+
+    for (int i=0; i < v.size(); i++)
+        std::cout << v[i] << std::endl;
+
     return 0;
 }
