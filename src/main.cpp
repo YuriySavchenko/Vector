@@ -36,5 +36,15 @@ int main(int argc, char *argv[]) {
     for (int i=0; i < v.size(); i++)
         std::cout << v[i] << std::endl;
 
+    Vector<double> vdbl(5, 4.04);
+
+    for (int i=0; i < vdbl.size(); i++)
+        std::cout << vdbl[i] << std::endl;
+
+    Vector<std::string> vstr = {"I", "love", "programming!"};
+
+    for (int i=0; i < vstr.size(); i++)
+        std::cout << vstr[i] << std::endl;
+
     return 0;
 }
