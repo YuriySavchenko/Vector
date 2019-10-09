@@ -1,4 +1,5 @@
 #include "vector.h"
+#include <vector>
 
 class User {
     int id;
@@ -24,6 +25,29 @@ void add_user(Vector<User>& vector) {
 }
 
 int main(int argc, char *argv[]) {
+    Vector<User *> vector;
+
+    User *usr1 = new User();
+    User *usr2 = new User();
+    User *usr3 = new User();
+
+    vector.push_back(usr1);
+    vector.push_back(usr2);
+    vector.push_back(usr3);
+
+    vector.clear();
+
+    std::cout << vector.capacity() << std::endl;
+
+    delete usr1;
+    delete usr2;
+    delete usr3;
+
+    Vector<User *> vectorObj;
+
+    vectorObj.push_back(new User());
+    vectorObj.push_back(new User());
+
     Vector<User> users;
     add_user(users);
 
