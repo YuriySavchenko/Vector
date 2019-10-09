@@ -57,6 +57,7 @@ template <typename T>
 Vector<T>::Vector() {
     this->LENGTH = 0;
     this->CAPACITY = 0;
+    this->ARRAY = nullptr;
 }
 
 /* constructor for creating vector by count of elements and particular value */
