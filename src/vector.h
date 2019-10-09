@@ -64,6 +64,7 @@ Vector<T>::Vector() {
 template <typename T>
 Vector<T>::Vector(const std::size_t &count, const T & value) {
     this->LENGTH = count;
+    this->ARRAY = nullptr;
     this->reserve();
 
     for (int i=0; i < LENGTH; i++)
@@ -74,6 +75,7 @@ Vector<T>::Vector(const std::size_t &count, const T & value) {
 template <typename T>
 Vector<T>::Vector(std::initializer_list<T> init) {
     this->LENGTH = init.size();
+    this->ARRAY = nullptr;
     this->reserve();
 
     std::size_t index = 0;
