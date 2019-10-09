@@ -8,12 +8,13 @@
 #include <functional>
 #include <stdexcept>
 #include <cmath>
-#include <cstdlib>
 
 template <typename T>
 class Vector {
 private:
-    //std::unique_ptr<T []> ARRAY;
+    std::allocator<T> allocator;
+
+private:
     T * ARRAY;
     std::size_t LENGTH;
     std::size_t CAPACITY;
@@ -81,7 +82,7 @@ Vector<T>::Vector(std::initializer_list<T> init) {
     std::size_t index = 0;
 
     for (auto & value : init) {
-        ARRAY[index] = value;
+        ARRAY[index] = std::move(value);
         index++;
     }
 }
@@ -89,8 +90,8 @@ Vector<T>::Vector(std::initializer_list<T> init) {
 /* implementation of the basic destructor */
 template <typename T>
 Vector<T>::~Vector() {
+    this->allocator.deallocate(ARRAY, CAPACITY);
     this->clear();
-    free(ARRAY);
 }
 
 /* function for returning size of the vector */
@@ -115,7 +116,6 @@ constexpr bool Vector<T>::empty() const noexcept {
 template <typename T>
 constexpr void Vector<T>::clear() {
     this->LENGTH = 0;
-    this->CAPACITY = 0;
 }
 
 /* method which allows to find a capacity and create new array */
@@ -129,13 +129,13 @@ constexpr void Vector<T>::reserve() {
                 return pow(2, i);
     };
 
-    T * array = static_cast<T *>(malloc(sizeof(T)*pow2()));
+    T * array = allocator.allocate(pow2());
 
     if (LENGTH != 0 && !this->empty()) {
         for (int i=0; i < LENGTH-1; i++)
             array[i] = ARRAY[i];
 
-        free(ARRAY);
+        allocator.deallocate(ARRAY, pow2());
     }
 
     this->ARRAY = array;
