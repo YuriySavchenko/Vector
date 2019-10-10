@@ -82,7 +82,7 @@ Vector<T>::Vector(std::initializer_list<T> init) {
     std::size_t index = 0;
 
     for (auto & value : init) {
-        ARRAY[index] = std::move(value);
+        ARRAY[index] = value;
         index++;
     }
 }
